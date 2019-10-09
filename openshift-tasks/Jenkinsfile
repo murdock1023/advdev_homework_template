@@ -85,7 +85,7 @@ podTemplate(
         echo "Building OpenShift container image tasks:${devTag}"
         // TBD: Build Image, tag Image
         script {
-          openshift.withCluster() {
+          openshift.withCluster(){
             openshift.withProject("${devProject}") {
               openshift.selector("bc", "tasks").startBuild("--from-file=./target/openshift-tasks.war", "--wait=true")
               // OR use the file you just published into Nexus:
@@ -205,7 +205,7 @@ podTemplate(
         echo "Switching Production application to ${destApp}."
         // TBD: Execute switch
         script {
-          openshift.withCluster() {
+          openshift.withCluster() {
             openshift.withProject("${prodProject}") {
               def route = openshift.selector("route/tasks").object()
               route.spec.to.name="${destApp}"
