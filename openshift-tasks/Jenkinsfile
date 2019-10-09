@@ -21,8 +21,8 @@ podTemplate(
 
     // Checkout Source Code.
     stage('Checkout Source') {
-      git credentialsId: 'marko-github', url: 'https://github.com/murdock1023/advdev_homework_template.git'
-      //checkout scm
+      //git credentialsId: 'marko-github', url: 'https://github.com/murdock1023/advdev_homework_template.git'
+      checkout scm
     }
 
     // Build the Tasks Service
