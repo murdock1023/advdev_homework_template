@@ -43,7 +43,7 @@ podTemplate(
       // Set the tag for the production image: version
       prodTag = "${version}"
  
-      def prefix = "a8af"
+      def prefix = "${GUID}" 
       def devProject = "${prefix}-tasks-dev"
       def prodProject = "${prefix}-tasks-prod"
 
