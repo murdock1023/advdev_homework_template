@@ -6,7 +6,7 @@ podTemplate(
   containers: [
     containerTemplate(
       name: "jnlp",
-      image: "docker-registry.default.svc:5000/aa2d-jenkins/jenkins-agent-appdev",
+      image: "docker-registry.default.svc:5000/a8af-jenkins/jenkins-agent-appdev",
       resourceRequestMemory: "1Gi",
       resourceLimitMemory: "2Gi",
       resourceRequestCpu: "1",
@@ -43,7 +43,7 @@ podTemplate(
       // Set the tag for the production image: version
       prodTag = "${version}"
  
-      def prefix = "aa2d"
+      def prefix = "a8af"
       def devProject = "${prefix}-tasks-dev"
       def prodProject = "${prefix}-tasks-prod"
 
