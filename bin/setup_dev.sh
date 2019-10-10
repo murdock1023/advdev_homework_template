@@ -25,5 +25,7 @@ oc set volume dc/tasks --add --name=jboss-config1 --mount-path=/opt/eap/standalo
 oc set probe dc/tasks --readiness --get-url=http://:8080/ --initial-delay-seconds=30 --timeout-seconds=1 -n ${GUID}-tasks-dev
 oc set probe dc/tasks --liveness --get-url=http://:8080/ --initial-delay-seconds=30 --timeout-seconds=1 -n ${GUID}-tasks-dev
 
+oc set resources dc tasks --limits=memory=2Gi,cpu=1 --requests=memory=1Gi,cpu=500m
+
 # Setting 'wrong' VERSION. This will need to be updated in the pipeline
 oc set env dc/tasks VERSION='0.0 (tsks-dev)' -n ${GUID}-tasks-dev

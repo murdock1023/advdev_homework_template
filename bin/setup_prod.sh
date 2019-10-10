@@ -22,6 +22,9 @@ oc set volume dc/tasks-blue --add --name=jboss-config --mount-path=/opt/eap/stan
 oc set volume dc/tasks-blue --add --name=jboss-config1 --mount-path=/opt/eap/standalone/configuration/application-roles.properties --sub-path=application-roles.properties --configmap-name=tasks-blue-config -n ${GUID}-tasks-prod
 oc set probe dc/tasks-blue --readiness --get-url=http://:8080/ --initial-delay-seconds=30 --timeout-seconds=1 -n ${GUID}-tasks-prod
 oc set probe dc/tasks-blue --liveness --get-url=http://:8080/ --initial-delay-seconds=30 --timeout-seconds=1 -n ${GUID}-tasks-prod
+
+oc set resources dc tasks-blue --limits=memory=2Gi,cpu=1 --requests=memory=1Gi,cpu=500m
+
 # Setting 'wrong' VERSION. This will need to be updated in the pipeline
 oc set env dc/tasks-blue VERSION='0.0 (tsks-blue)' -n ${GUID}-tasks-prod
 
@@ -37,6 +40,8 @@ oc set probe dc/tasks-green --readiness --get-url=http://:8080/ --initial-delay-
 oc set probe dc/tasks-green --liveness --get-url=http://:8080/ --initial-delay-seconds=30 --timeout-seconds=1 -n ${GUID}-tasks-prod
 # Setting 'wrong' VERSION. This will need to be updated in the pipeline
 oc set env dc/tasks-green VERSION='0.0 (tsks-green)' -n ${GUID}-tasks-prod
+
+oc set resources dc tasks-green --limits=memory=2Gi,cpu=1 --requests=memory=1Gi,cpu=500m
 
 # Expose Blue service as route to make green application active
 oc expose svc/tasks-green --name tasks -n ${GUID}-tasks-prod
