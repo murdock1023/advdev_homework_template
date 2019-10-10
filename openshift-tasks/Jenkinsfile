@@ -132,6 +132,7 @@ podTemplate(
             }
           }
         }
+        sh "oc set resources dc tasks --limits=memory=2Gi,cpu=1 --requests=memory=1Gi,cpu=500m"
       }
 
       // Copy Image to Nexus container registry
@@ -198,7 +199,8 @@ podTemplate(
               }
             }
           }
-        }    
+        }
+        sh "oc set resources dc "${destApp}" --limits=memory=2Gi,cpu=1 --requests=memory=1Gi,cpu=500m"
       }
 
       stage('Switch over to new Version') {
