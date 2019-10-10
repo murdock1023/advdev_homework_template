@@ -12,8 +12,8 @@ GUID=$1
 USER=$2
 FROM_JENKINS=$3
 
-#echo "cleanup"
-#./bin/cleanup.sh ${GUID}
+echo "cleanup"
+./bin/cleanup.sh ${GUID}
 
 echo "Creating Homework Projects for GUID=${GUID} and USER=${USER}"
 oc new-project ${GUID}-jenkins    --display-name="${GUID} AdvDev Homework Jenkins"
