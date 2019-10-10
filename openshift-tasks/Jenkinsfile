@@ -126,13 +126,12 @@ podTemplate(
 
               echo "Waiting for ReplicationController tasks-${dc_version} to be ready"
               while (rc.spec.replicas != rc.status.readyReplicas) {
-                sleep 15
+                sleep 5
                 rc = openshift.selector("rc", "tasks-${dc_version}").object()
               }
             }
           }
         }
-        sh "oc set resources dc tasks --limits=memory=2Gi,cpu=1 --requests=memory=1Gi,cpu=500m -n '${devProject}'"
       }
 
       // Copy Image to Nexus container registry
@@ -194,13 +193,12 @@ podTemplate(
               def rc_prod = openshift.selector("rc", "${destApp}-${dc_version}").object()
               echo "Waiting for ${destApp} to be ready"
               while (rc_prod.spec.replicas != rc_prod.status.readyReplicas) {
-                sleep 30
+                sleep 5 
                 rc_prod = openshift.selector("rc", "${destApp}-${dc_version}").object()
               }
             }
           }
         }
-        sh "oc set resources dc "${destApp}" --limits=memory=2Gi,cpu=1 --requests=memory=1Gi,cpu=500m -n '${prodProject}'"
       }
 
       stage('Switch over to new Version') {
