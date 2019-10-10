@@ -134,6 +134,20 @@ podTemplate(
         }
       }
 
+      stage('Test Tasks in Dev') {
+        echo "Testing Tasks Dev Application"
+        script {
+          def devTasksRoute = sh(returnStdout: true, script: "curl tasks-${GUID}-tasks-dev.apps.${CLUSTER}").trim()
+          // Check if the returned string contains "tasks-dev"
+          if (devTasksRoute.contains("tasks-dev")) {
+            echo "*** tasks-dev validated successfully."
+          }
+          else {
+            error("*** tasks-dev returned unexpected name.")
+          }
+        }
+      }
+
       // Copy Image to Nexus container registry
       stage('Copy Image to Nexus container registry') {
         echo "Copy image to Nexus container registry"
@@ -201,6 +215,20 @@ podTemplate(
         }    
       }
 
+      stage('Test Blue Services in Prod') {
+        echo "Testing Prod Services (BLUE)"
+        script {
+          def tasksRoute = sh(returnStdout: true, script: "curl tasks-${GUID}-tasks-prod.apps.${CLUSTER}").trim()
+          // Check if the returned string contains "tasks-blue"
+          if (tasksRoute.contains("tasks-blue")) {
+            echo "*** tasks-blue validated successfully."
+          }
+          else {
+            error("*** tasks-blue returned unexpected name.")
+          }
+        }
+      }
+
       stage('Switch over to new Version') {
         echo "Switching Production application to ${destApp}."
         // TBD: Execute switch
@@ -211,6 +239,20 @@ podTemplate(
               route.spec.to.name="${destApp}"
               openshift.apply(route)
             }
+          }
+        }
+      }
+
+      stage('Test Green Parksmap in Prod') {
+        echo "Testing Prod Parksmap Application (GREEN)"
+        script {
+          def tasksRoute = sh(returnStdout: true, script: "curl tasks-${GUID}-tasks-prod.apps.${CLUSTER}").trim()
+          // Check if the returned string contains "tasks-green"
+          if (tasksRoute.contains("tasks-green")) {
+            echo "*** tasks-green validated successfully."
+          }
+          else {
+            error("*** tasks-green returned unexpected name.")
           }
         }
       }
